@@ -1,12 +1,16 @@
 import React from 'react';
 import {QuestionShowPage} from './QuestionShowPage';
+import {QuestionIndexPage} from './QuestionIndexPage';
 // Anywhere you write JSX tags, React must be
 // imported, because JSX tags are translated
 // to React.createElement(...) calls.
 
 function App () {
   return (
-    <QuestionShowPage />
+    <div className="App">
+      <QuestionIndexPage />
+      <QuestionShowPage />
+    </div>
   );
 }
 

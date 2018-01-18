@@ -3,7 +3,7 @@ import {Field} from './Field';
 
 function AnswerDetails (props) {
   return (
-    <div>
+    <div className="AnswerDetails">
       <p>{props.body}</p>
       <p>By {props.author_full_name}</p>
       <Field name="Created At" value={props.created_at} />
