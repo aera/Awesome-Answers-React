@@ -18,21 +18,27 @@ class QuestionIndexPage extends Component {
     this.deleteQuestion = this.deleteQuestion.bind(this);
   }
 
-  deleteQuestion (event) {
-    // this.state = this.state.questions.pop() BAD!
-    const {questions} = this.state;
-    const {currentTarget} = event;
-    const questionId = parseInt(currentTarget.getAttribute('data-id'));
+  deleteQuestion (questionId) {
+    // Another way to keep track of which question delete
+    // besides using a custom html attribute is make use
+    // of a closure. Instead, our `deleteQuestion` function
+    // will return a function itself. When deleteQuestion
+    // is called with a `questionId`, this argument will
+    // saved in the closure that will be usable
+    // by the returned function.
+    return () => {
+      // this.state = this.state.questions.pop() BAD!
+      const {questions} = this.state;
 
-    // Everytime you want to change the state, use the
-    // this.setState() method. Unlike directly mutating the
-    // this.state, this will tell React that the DOM may need
-    // to change.
-    this.setState({
-      questions: questions
+      // Everytime you want to change the state, use the
+      // this.setState() method. Unlike directly mutating the
+      // this.state, this will tell React that the DOM may need
+      // to change.
+      this.setState({
+        questions: questions
         .filter(question => question.id !== questionId)
-    });
-    console.log('Question delete!');
+      });
+    }
   }
 
   render () {
@@ -50,11 +56,16 @@ class QuestionIndexPage extends Component {
                 <a href="">{question.title}</a>
                 <Field name="Author" value={question.author.full_name} />
                 <button
-                  data-id={question.id}
-                  onClick={this.deleteQuestion}
+                  onClick={this.deleteQuestion(question.id)}
                 >Delete</button>
               </li>
             ))
+            /* this.deleteQuestion is not the callback that
+            handles the onClick event. Rather, the function that it returns
+            will be the event handler. Everytime it gets called for
+            each <li... created a new question.id will saved in the
+            closure.
+            */
           }
         </ul>
       </main>
