@@ -1,43 +1,52 @@
-import React from 'react';
+import React, {Component} from 'react';
 // When you're not export a default from a module
 // (e.g. export {QuestionDetails, AnswerDetails}),
 // you must braces after `import` to choose the values
 // that you are import from the module.
 import {QuestionDetails} from './QuestionDetails';
-import {AnswerDetails} from './AnswerDetails';
+import {AnswerList} from './AnswerList';
+import question from '../data/question';
 
-function QuestionShowPage () {
-  // To pass props to React elements, set them with
-  // "HTML attributes". Each attribute will as a property
-  // of the `props` object.
+class QuestionShowPage extends Component {
+  // When you create your own constructor, you overwrite
+  // the constructor in the parent class, Component.
+  // The parent constructor must still be called which
+  // is we super(props) as first line of code inside
+  // our constructor.
 
-  // When passing props in JSX, any value that
-  // is a non-string (e.g. numbers, objects, arrays, functions, etc)
-  // must be put inside {}.
-  return (
-    <main
-      className="QuestionShowPage"
-      style={{
-        padding: '0 20px'
-      }}
-    >
-      {/* I'm a valid comment */}
-      <QuestionDetails
-        title="What is your favourite colour?"
-        body="Red, magenta, blue, indigo, purple, etc."
-        created_at="2017-01-01"
-        updated_at="2017-01-01"
-        view_count={901}
-        author={{full_name: "Jon Snow"}}
-      />
-      <h3>Answer</h3>
-      <AnswerDetails
-        body="Magenta with a tinge of teal"
-        author_full_name="Jane Doe"
-        created_at="2017-01-01"
-      />
-    </main>
-  );
+  // We use constructor primarily to set an initial state
+  // for our component.
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      question: question
+    }
+  }
+
+  render () {
+    const {answers = []} = this.state.question;
+    // To pass props to React elements, set them with
+    // "HTML attributes". Each attribute will as a property
+    // of the `props` object.
+
+    // When passing props in JSX, any value that
+    // is a non-string (e.g. numbers, objects, arrays, functions, etc)
+    // must be put inside {}.
+    return (
+      <main
+        className="QuestionShowPage"
+        style={{
+          padding: '0 20px'
+        }}
+      >
+        {/* I'm a valid comment */}
+        <QuestionDetails {...this.state.question} />
+        <h3>Answer</h3>
+        <AnswerList answers={answers} />
+      </main>
+    );
+  }
 }
 
 export {QuestionShowPage};
