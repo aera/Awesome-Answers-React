@@ -10,7 +10,7 @@ function AnswerDetails (props) {
       <p>By {props.author_full_name}</p>
       <Field name="Created At" value={props.created_at} />
       <button
-        onClick={onDeleteClick}
+        onClick={() => onDeleteClick(props.id)}
       >Delete</button>
     </div>
   );
