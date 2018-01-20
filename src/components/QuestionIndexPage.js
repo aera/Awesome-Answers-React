@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Field} from './Field';
+import {QuestionForm} from './QuestionForm';
 import questions from '../data/questions';
 
 class QuestionIndexPage extends Component {
@@ -16,6 +17,7 @@ class QuestionIndexPage extends Component {
     // we must bind this to it otherwise we won't have access
     // to any method on `this` such `setState`.
     this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.addQuestion = this.addQuestion.bind(this);
   }
 
   deleteQuestion (questionId) {
@@ -41,6 +43,18 @@ class QuestionIndexPage extends Component {
     }
   }
 
+  addQuestion (newQuestion) {
+    const {questions} = this.state;
+    // ð hack because we don't have a author
+    newQuestion.author = {};
+    this.setState({
+      questions: [
+        newQuestion,
+        ...questions
+      ]
+    })
+  }
+
   render () {
     return (
       <main
@@ -49,6 +63,9 @@ class QuestionIndexPage extends Component {
       >
         {/* This is how we comment in JSX! */}
         <h2>Questions</h2>
+        <QuestionForm
+          onSubmit={this.addQuestion}
+        />
         <ul style={{paddingLeft: '10px'}}>
           {
             this.state.questions.map(question => (
