@@ -8,7 +8,12 @@ class QuestionIndexPage extends Component {
     super(props);
 
     this.state = {
-      questions: questions
+      questions: questions,
+      newQuestion: {
+        title: "",
+        body: "",
+        author: {}
+      }
     };
 
     // this.deleteQuestion = (..args) => this.deleteQuestion(...args);
@@ -18,6 +23,7 @@ class QuestionIndexPage extends Component {
     // to any method on `this` such `setState`.
     this.deleteQuestion = this.deleteQuestion.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
+    this.updateNewQuestion = this.updateNewQuestion.bind(this);
   }
 
   deleteQuestion (questionId) {
@@ -43,19 +49,30 @@ class QuestionIndexPage extends Component {
     }
   }
 
-  addQuestion (newQuestion) {
-    const {questions} = this.state;
-    // ð hack because we don't have a author
-    newQuestion.author = {};
+  updateNewQuestion (data) {
+    console.log(data)
+    const {newQuestion} = this.state;
+
     this.setState({
-      questions: [
-        newQuestion,
-        ...questions
-      ]
-    })
+      newQuestion: {...newQuestion, ...data}
+    });
+  }
+
+  addQuestion () {
+    const {questions, newQuestion} = this.state;
+    this.setState({
+      questions: [newQuestion, ...questions],
+      newQuestion: {
+        title: "",
+        body: "",
+        author: {}
+      }
+    });
   }
 
   render () {
+    const {newQuestion} = this.state;
+
     return (
       <main
         className="QuestionIndexPage"
@@ -64,6 +81,8 @@ class QuestionIndexPage extends Component {
         {/* This is how we comment in JSX! */}
         <h2>Questions</h2>
         <QuestionForm
+          question={newQuestion}
+          onChange={this.updateNewQuestion}
           onSubmit={this.addQuestion}
         />
         <ul style={{paddingLeft: '10px'}}>

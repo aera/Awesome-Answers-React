@@ -1,17 +1,19 @@
 import React from 'react';
 
 function QuestionForm (props) {
-  const {onSubmit = () => {}} = props;
+  const {
+    question = {},
+    onSubmit = () => {},
+    onChange = () => {}
+  } = props;
 
   const handleSubmit = event => {
     event.preventDefault();
-    const form = event.currentTarget;
-    const fData = new FormData(form);
-    onSubmit({
-      title: fData.get('title'),
-      body: fData.get('body')
-    });
-    form.reset();
+    onSubmit();
+  };
+
+  const handleChange = name => event => {
+    onChange({[name]: event.currentTarget.value});
   };
 
   return (
@@ -21,12 +23,22 @@ function QuestionForm (props) {
     >
       <div>
         <label htmlFor="title">Title</label> <br />
-        <input name="title" id="title" />
+        <input
+          onChange={handleChange("title")}
+          value={question.title}
+          name="title"
+          id="title"
+        />
       </div>
 
       <div>
         <label htmlFor="body">Body</label> <br />
-        <input name="body" id="body" />
+        <input
+          onChange={handleChange("body")}
+          value={question.body}
+          name="body"
+          id="body"
+        />
       </div>
 
       <div>
