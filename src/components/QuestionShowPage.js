@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 // that you are import from the module.
 import {QuestionDetails} from './QuestionDetails';
 import {AnswerList} from './AnswerList';
-import question from '../data/question';
+import {Question} from '../requests/questions';
 
 class QuestionShowPage extends Component {
   // When you create your own constructor, you overwrite
@@ -20,7 +20,8 @@ class QuestionShowPage extends Component {
     super(props);
 
     this.state = {
-      question: question
+      loading: true,
+      question: {}
     };
 
     this.delete = this.delete.bind(this);
@@ -45,9 +46,33 @@ class QuestionShowPage extends Component {
     })
   }
 
+  componentDidMount () {
+    Question
+      .get(93)
+      .then(question => {
+        console.log(question)
+        this.setState({question, loading: false})
+      });
+  }
+
   render () {
+    const {question, loading} = this.state;
     const {answers = []} = this.state.question;
 
+    if (loading) {
+      return (
+        <main
+          className="QuestionShowPage"
+          style={{
+            padding: '0 20px'
+          }}
+        >
+          <h3>Loading question...</h3>
+        </main>
+      )
+    }
+
+    /*
     if (Object.keys(this.state.question).length < 1) {
       return (
         <main
@@ -60,6 +85,7 @@ class QuestionShowPage extends Component {
         </main>
       );
     }
+    */
     // To pass props to React elements, set them with
     // "HTML attributes". Each attribute will as a property
     // of the `props` object.
