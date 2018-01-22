@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {Field} from './Field';
 import {QuestionForm} from './QuestionForm';
-import questions from '../data/questions';
+import {Question} from '../requests/questions';
 
 class QuestionIndexPage extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
-      questions: questions,
+      loading: true,
+      questions: [],
       newQuestion: {
         title: "",
         body: "",
@@ -70,8 +71,38 @@ class QuestionIndexPage extends Component {
     });
   }
 
+  /* // Promise version
+  componentDidMount () {
+    Question
+      .all()
+      .then(questions => {
+        // this.setState({questions: questions})
+        // When you add a property of the same as variable,
+        // you can use this shortcut ð syntax sugar for ð
+        this.setState({questions, loading: false})
+      });
+  }
+  */
+
+  // async-await version
+  async componentDidMount () {
+    const questions = await Question.all();
+    this.setState({questions, loading: false});
+  }
+
   render () {
-    const {newQuestion} = this.state;
+    const {newQuestion, loading} = this.state;
+
+    if (loading) {
+      return (
+        <main
+          className="QuestionIndexPage"
+          style={{padding: '0  20px'}}
+        >
+          <h3>Loading questions...</h3>
+        </main>
+      )
+    }
 
     return (
       <main

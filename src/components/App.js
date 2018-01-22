@@ -11,7 +11,7 @@ function App () {
     <div className="App">
       <CurrentDateTime />
       <QuestionIndexPage />
-      <QuestionShowPage />
+      {/* <QuestionShowPage /> */}
     </div>
   );
 }
