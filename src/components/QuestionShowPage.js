@@ -47,10 +47,11 @@ class QuestionShowPage extends Component {
   }
 
   componentDidMount () {
+    const {params} = this.props.match;
+
     Question
-      .get(93)
+      .get(params.id)
       .then(question => {
-        console.log(question)
         this.setState({question, loading: false})
       });
   }
@@ -101,7 +102,7 @@ class QuestionShowPage extends Component {
         }}
       >
         {/* I'm a valid comment */}
-        <QuestionDetails {...this.state.question} />
+        <QuestionDetails {...question} />
         <button
           onClick={this.delete}
         >Delete</button>

@@ -1,18 +1,33 @@
 import React from 'react';
-import {QuestionShowPage} from './QuestionShowPage';
-import {QuestionIndexPage} from './QuestionIndexPage';
-import {CurrentDateTime} from './CurrentDateTime';
 // Anywhere you write JSX tags, React must be
 // imported, because JSX tags are translated
 // to React.createElement(...) calls.
+import {QuestionShowPage} from './QuestionShowPage';
+import {QuestionIndexPage} from './QuestionIndexPage';
+import {QuestionNewPage} from './QuestionNewPage';
+import {NavBar} from './NavBar';
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch
+} from 'react-router-dom';
 
 function App () {
+  // The <Switch> component is used with <Route> children.
+  // It will force only one route children to render at a time.
+  // Only the first <Route> that matches will render.
   return (
-    <div className="App">
-      <CurrentDateTime />
-      {/* <QuestionIndexPage /> */}
-      <QuestionShowPage />
-    </div>
+    <Router >
+      <div className="App">
+        <NavBar />
+        <Switch>
+          <Route path="/questions" exact component={QuestionIndexPage} />
+          <Route path="/questions/new" component={QuestionNewPage} />
+          <Route path="/questions/:id" component={QuestionShowPage} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
