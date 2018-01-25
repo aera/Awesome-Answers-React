@@ -11,6 +11,7 @@ function QuestionDetails (props = {}) {
     paddingLeft: "10px"
   };
 
+
   return (
     // JSX tags are translated into React.createElement() function
     // calls which output React elements.

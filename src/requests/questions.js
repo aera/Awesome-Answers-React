@@ -1,5 +1,6 @@
+/*global fetch*/
+import {BASE_URL} from './config';
 const API_KEY = '106760f70020106ce13d1211f505335ef5846b49a89b3a12e5d040e78e14e347';
-const BASE_URL = 'http://localhost:3000';
 
 // HTTP REQUESTS
 
