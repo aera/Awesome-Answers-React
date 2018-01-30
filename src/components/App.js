@@ -6,6 +6,8 @@ import {QuestionShowPage} from './QuestionShowPage';
 import {QuestionIndexPage} from './QuestionIndexPage';
 import {QuestionNewPage} from './QuestionNewPage';
 import {SignInPage} from './SignInPage';
+import {NotFoundPage} from './NotFoundPage';
+import {HomePage} from './HomePage';
 import {NavBar} from './NavBar';
 import {AuthRoute} from './AuthRoute';
 import {
@@ -71,6 +73,7 @@ class App extends Component {
             onSignOutClick={this.signOut}
           />
           <Switch>
+            <Route exact path="/" component={HomePage} />
             <Route path="/sign_in" render={props => {
               return <SignInPage {...props} onSignIn={this.signIn} />
             }} />
@@ -90,6 +93,13 @@ class App extends Component {
               path="/questions/:id"
               component={QuestionShowPage}
             />
+            {/*
+              To match all routes that aren't matched in
+              a Switch component, create a Route without
+              a `path` prop. We can use it to implement a 404
+              page.
+             */}
+            <Route component={NotFoundPage} />
           </Switch>
         </div>
       </Router>
