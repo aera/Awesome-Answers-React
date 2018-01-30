@@ -10,7 +10,8 @@ class QuestionNewPage extends Component {
       newQuestion: {
         title: "",
         body: ""
-      }
+      },
+      validationErrors: []
     };
 
     this.createQuestion = this.createQuestion.bind(this);
@@ -30,13 +31,21 @@ class QuestionNewPage extends Component {
     const {newQuestion} = this.state;
     Question
       .create(newQuestion)
-      .then(({id}) => {
-        history.push(`/questions/${id}`)
+      .then(data => {
+        if (data.errors) {
+          this.setState({
+            validationErrors: data
+              .errors
+              .filter(e => e.type === 'ActiveRecord::RecordInvalid')
+          });
+        } else {
+          history.push(`/questions/${data.id}`)
+        }
       });
   }
 
   render () {
-    const {newQuestion} = this.state;
+    const {newQuestion, validationErrors} = this.state;
 
     return (
       <main
@@ -45,6 +54,7 @@ class QuestionNewPage extends Component {
       >
         <h2>Questions</h2>
         <QuestionForm
+          errors={validationErrors}
           question={newQuestion}
           onChange={this.updateNewQuestion}
           onSubmit={this.createQuestion}

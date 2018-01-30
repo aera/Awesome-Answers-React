@@ -1,10 +1,12 @@
 import React from 'react';
+import {FormErrors} from './FormErrors';
 
 function QuestionForm (props) {
   const {
     question = {},
     onSubmit = () => {},
-    onChange = () => {}
+    onChange = () => {},
+    errors = []
   } = props;
 
   const handleSubmit = event => {
@@ -29,16 +31,18 @@ function QuestionForm (props) {
           name="title"
           id="title"
         />
+        <FormErrors forField='title' errors={errors} />
       </div>
 
       <div>
         <label htmlFor="body">Body</label> <br />
-        <input
+        <textarea
           onChange={handleChange("body")}
           value={question.body}
           name="body"
           id="body"
         />
+        <FormErrors forField='body' errors={errors} />
       </div>
 
       <div>
